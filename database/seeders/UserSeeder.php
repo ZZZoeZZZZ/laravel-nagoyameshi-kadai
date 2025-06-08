@@ -13,6 +13,8 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        User::factory()->count(100)->create();
+        if (User::count() === 0) {
+            User::factory()->count(100)->create();
+        }
     }
 }
