@@ -84,7 +84,7 @@ class UserTest extends TestCase
         $admin->save();
 
         // 管理者でアクセス
-        $response = $this->actingAs($admin, 'admin')->get('/admin/users');
+        $response = $this->actingAs($admin, 'admin')->get('/admin/users/1');
         $response->assertStatus(200);
     }
 }

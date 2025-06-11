@@ -23,7 +23,7 @@ class UserController extends Controller
             // キーワードある場合は絞込
             $users = User::where('name', 'like', "%{$keyword}%")->orWhere('kana', 'like', "%" . $keyword . "%")
                 ->paginate(15);
-            $total_users = $users->total();
+            $total = $users->total();
         } else {
             // キーワードない場合は全件
             $users = User::paginate(15);

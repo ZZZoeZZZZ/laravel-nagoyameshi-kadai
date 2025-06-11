@@ -18,5 +18,7 @@ class DatabaseSeeder extends Seeder
         $this->call(AdminSeeder::class);
         // 一般ユーザー追加
         $this->call(UserSeeder::class);
+        // 店舗追加
+        $this->call(RestaurantSeeder::class);
     }
 }
