@@ -219,9 +219,10 @@ class RestaurantTest extends TestCase
     {
         // テスト用ダミーデータ
         $restaurant = Restaurant::factory()->create();
+        $updateData = Restaurant::factory()->make()->toArray();
 
         // 更新
-        $response = $this->patch(route('admin.restaurants.update', $restaurant));
+        $response = $this->patch(route('admin.restaurants.update', $restaurant), $updateData);
         $response->assertRedirect(route('admin.login'));
     }
 
@@ -233,9 +234,10 @@ class RestaurantTest extends TestCase
 
         // テスト用ダミーデータ
         $restaurant = Restaurant::factory()->create();
+        $updateData = Restaurant::factory()->make()->toArray();
 
         // 更新
-        $response = $this->actingAs($generalUser)->patch(route('admin.restaurants.update', $restaurant));
+        $response = $this->actingAs($generalUser)->patch(route('admin.restaurants.update', $restaurant), $updateData);
         $response->assertRedirect(route('admin.login'));
     }
 
@@ -302,7 +304,7 @@ class RestaurantTest extends TestCase
 
         // 削除
         $response = $this->actingAs($admin, 'admin')->delete(route('admin.restaurants.destroy', $restaurant));
-        $this->assertDatabaseHas('restaurants', ['id' => $restaurant->id]);
-        $response->assertRedirect(route('admin.login'));
+        $this->assertDatabaseMissing('restaurants', ['id' => $restaurant->id]);
+        $response->assertRedirect(route('admin.restaurants.index'));
     }
 }

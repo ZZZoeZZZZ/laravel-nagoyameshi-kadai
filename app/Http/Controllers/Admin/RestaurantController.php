@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Models\Restaurant;
 use Illuminate\Http\Request;
 use App\Http\Requests\RestaurantStoreRequest;
-use Illuminate\Support\Facades\Storage;
 
 class RestaurantController extends Controller
 {
@@ -55,7 +54,7 @@ class RestaurantController extends Controller
         if ($request->image !== null) {
             // 画像がある場合：画像を保存し、ファイル名をDBに保存する
             $file_path = $request->file('image')->store('public/restaurants');
-            $restaurant->image = Storage::url($file_path);
+            $restaurant->image = basename($file_path);
         } else {
             // 画像がない場合
             $restaurant->image = '';
@@ -101,7 +100,7 @@ class RestaurantController extends Controller
         if ($request->image !== null) {
             // 画像がある場合：画像を保存し、ファイル名をDBに保存する
             $file_path = $request->file('image')->store('public/restaurants');
-            $restaurant->image = Storage::url($file_path);
+            $restaurant->image = basename($file_path);
         } else {
             // 画像がない場合
             $restaurant->image = '';
