@@ -24,7 +24,7 @@ class RestaurantController extends Controller
 
         if ($keyword !== null) {
             // キーワードある場合は絞り込み
-            $restaurants = Restaurant::where('name', 'like', '%' . $keyword . '%')->pagenate(15);
+            $restaurants = Restaurant::where('name', 'like', '%' . $keyword . '%')->paginate(15);
             $total = $restaurants->total();
         } else {
             // キーワードない場合は全件

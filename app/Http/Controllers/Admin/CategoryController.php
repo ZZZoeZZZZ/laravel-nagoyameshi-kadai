@@ -22,7 +22,7 @@ class CategoryController extends Controller
         $keyword = $request->keyword;
 
         if ($keyword !== null) {
-            $categories = Category::where('name', 'like', '%' . $keyword . '%')->pagenate(15);
+            $categories = Category::where('name', 'like', '%' . $keyword . '%')->paginate(15);
         } else {
             $categories = Category::paginate(15);
         }
