@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Restaurant;
+use App\Models\Category;
 use Illuminate\Http\Request;
 use App\Http\Requests\RestaurantStoreRequest;
 
@@ -40,7 +41,10 @@ class RestaurantController extends Controller
      */
     public function create()
     {
-        return view('admin.restaurants.create');
+        // カテゴリを取得
+        $categories = Category::all();
+
+        return view('admin.restaurants.create', compact('categories'));
     }
 
     /**
@@ -73,6 +77,10 @@ class RestaurantController extends Controller
 
         $restaurant->save();
 
+        // 店舗とカテゴリの中間テーブルに保存する
+        $category_ids = array_filter($request->input('category_ids'));
+        $restaurant->categories()->sync($category_ids);
+
         return redirect()->route('admin.restaurants.index')->with('flash_message', '店舗を登録しました。');
     }
 
@@ -89,7 +97,13 @@ class RestaurantController extends Controller
      */
     public function edit(Restaurant $restaurant)
     {
-        return view('admin.restaurants.edit', compact('restaurant'));
+        // カテゴリを取得
+        $categories = Category::all();
+
+        // 編集する店舗に設定済みのカテゴリを取得
+        $category_ids = $restaurant->categories->pluck('id')->toArray();
+
+        return view('admin.restaurants.edit', compact('restaurant', 'categories', 'category_ids'));
     }
 
     /**
@@ -111,11 +125,15 @@ class RestaurantController extends Controller
         $restaurant->highest_price = $request->input('highest_price');
         $restaurant->postal_code = $request->input('postal_code');
         $restaurant->address = $request->input('address');
-        $restaurant->opening_time = $request->input('opening_time') . ':00';
-        $restaurant->closing_time = $request->input('closing_time') . ':00';
+        $restaurant->opening_time = $request->input('opening_time');
+        $restaurant->closing_time = $request->input('closing_time');
         $restaurant->seating_capacity = $request->input('seating_capacity');
 
         $restaurant->save();
+
+        // 店舗とカテゴリの中間テーブルに保存する
+        $category_ids = array_filter($request->input('category_ids'));
+        $restaurant->categories()->sync($category_ids);
 
         return redirect()->route('admin.restaurants.show', $restaurant)->with('flash_message', '店舗を編集しました。');
     }

@@ -30,8 +30,8 @@ class RestaurantStoreRequest extends FormRequest
             'highest_price' => 'required|numeric|min:0|gte:lowest_price',
             'postal_code' => 'required|numeric|digits:7',
             'address' => 'required',
-            'opening_time' => 'required|date_format:H:i|before:closing_time',
-            'closing_time' => 'required|date_format:H:i|after:opening_time',
+            'opening_time' => 'required|before:closing_time',
+            'closing_time' => 'required|after:opening_time',
             'seating_capacity' => 'required|numeric|min:0',
         ];
     }
