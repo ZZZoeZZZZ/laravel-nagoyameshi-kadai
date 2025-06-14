@@ -1,12 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\HTTP\Controllers\HomeController;
 use App\Http\Controllers\Admin;
-use App\Http\Controllers\Admin\UserController;
-use App\Http\Controllers\Admin\RestaurantController;
-use App\Http\Controllers\Admin\CategoryController;
-use App\Http\Controllers\Admin\CompanyController;
-use App\Http\Controllers\Admin\TermController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,17 +15,23 @@ use App\Http\Controllers\Admin\TermController;
 |
 */
 
-Route::get('/', function () {
+/* Route::get('/', function () {
     return view('welcome');
-});
+}); */
 
 require __DIR__ . '/auth.php';
 
+// 一般用
+Route::group(['middleware' => 'guest:admin'], function () {
+    Route::get('/', [HomeController::class, 'index'])->name('homme');
+});
+
+// 管理者用
 Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => 'auth:admin'], function () {
     Route::get('home', [Admin\HomeController::class, 'index'])->name('home');
-    Route::resource('users', UserController::class)->only(['index', 'show']);
-    Route::resource('restaurants', RestaurantController::class);
-    Route::resource('categories', CategoryController::class)->only(['index', 'store', 'update', 'destroy']);
-    Route::resource('company', CompanyController::class)->only(['index', 'edit', 'update']);
-    Route::resource('terms', TermController::class)->only(['index', 'edit', 'update']);
+    Route::resource('users', Admin\UserController::class)->only(['index', 'show']);
+    Route::resource('restaurants', Admin\RestaurantController::class);
+    Route::resource('categories', Admin\CategoryController::class)->only(['index', 'store', 'update', 'destroy']);
+    Route::resource('company', Admin\CompanyController::class)->only(['index', 'edit', 'update']);
+    Route::resource('terms', Admin\TermController::class)->only(['index', 'edit', 'update']);
 });
