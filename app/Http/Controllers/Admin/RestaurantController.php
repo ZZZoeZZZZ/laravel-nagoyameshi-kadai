@@ -84,8 +84,14 @@ class RestaurantController extends Controller
         $category_ids = array_filter($request->input('category_ids'));
         $restaurant->categories()->sync($category_ids);
         // 店舗_定休日の中間テーブルに保存する
-        $regular_holiday_ids = array_filter($request->input('regular_holiday_ids'));
-        $restaurant->regular_holidays()->sync($regular_holiday_ids);
+        $regular_holidays = $request->input('regular_holiday_ids');
+        if (empty($regular_holidays)) {
+            $restaurant->regular_holidays()->detach();
+        } else {
+            $regular_holiday_ids = array_filter($regular_holidays);
+            $restaurant->regular_holidays()->sync($regular_holiday_ids);
+        }
+
 
         return redirect()->route('admin.restaurants.index')->with('flash_message', '店舗を登録しました。');
     }
@@ -144,8 +150,13 @@ class RestaurantController extends Controller
         $restaurant->categories()->sync($category_ids);
 
         // 店舗_定休日の中間テーブルに保存する
-        $regular_holiday_ids = array_filter(($request->input('regular_holiday_ids')));
-        $restaurant->regular_holidays()->sync($regular_holiday_ids);
+        $regular_holidays = $request->input('regular_holiday_ids');
+        if (empty($regular_holidays)) {
+            $restaurant->regular_holidays()->detach();
+        } else {
+            $regular_holiday_ids = array_filter($regular_holidays);
+            $restaurant->regular_holidays()->sync($regular_holiday_ids);
+        }
 
         return redirect()->route('admin.restaurants.show', $restaurant)->with('flash_message', '店舗を編集しました。');
     }
