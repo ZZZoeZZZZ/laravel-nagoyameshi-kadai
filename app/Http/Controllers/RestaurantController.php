@@ -8,9 +8,9 @@ use Illuminate\Http\Request;
 
 class RestaurantController extends Controller
 {
-    /**
+    /******************************************
      * 店舗一覧ページ
-     */
+     ******************************************/
     public function index(Request $request)
     {
         /*****
@@ -70,5 +70,13 @@ class RestaurantController extends Controller
         $total = $restaurants->total();
 
         return view('restaurants.index', compact('keyword', 'category_id', 'price', 'sorts', 'sorted', 'restaurants', 'categories', 'total'));
+    }
+
+    /******************************************
+     * 店舗詳細ページ
+     ******************************************/
+    public function show(Restaurant $restaurant)
+    {
+        return view('restaurants.show', compact('restaurant'));
     }
 }
