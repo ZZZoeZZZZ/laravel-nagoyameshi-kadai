@@ -1,8 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\HTTP\Controllers\HomeController;
 use App\Http\Controllers\Admin;
+use App\HTTP\Controllers\HomeController;
 use App\Http\Controllers\RestaurantController;
 use App\Http\Controllers\UserController;
 
