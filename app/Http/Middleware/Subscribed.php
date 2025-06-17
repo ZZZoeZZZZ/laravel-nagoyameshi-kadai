@@ -16,10 +16,10 @@ class Subscribed
     public function handle(Request $request, Closure $next): Response
     {
         // 未登録の場合、有料プラン登録ページにリダイレクトする
-        if(! $request->user()?->subscribed('premiun_plan')){
+        if (! $request->user()?->subscribed('premium_plan')) {
             return redirect('subscription/create');
         }
-        
+
         return $next($request);
     }
 }

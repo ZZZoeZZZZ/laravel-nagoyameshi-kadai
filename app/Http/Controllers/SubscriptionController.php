@@ -30,10 +30,10 @@ class SubscriptionController extends Controller
     /**
      * お支払い方法編集ページ
      */
-    public function edit(string $id)
+    public function edit()
     {
         $user = Auth::user();
-        $intent = $user()->createSetupIntent();
+        $intent = $user->createSetupIntent();
 
         return view('subscription.edit', compact('user', 'intent'));
     }
@@ -61,7 +61,7 @@ class SubscriptionController extends Controller
      */
     public function destroy(Request $request)
     {
-        $request->user()->subscription('premium_plun')->cancelNow();
+        $request->user()->subscription('premium_plan')->cancelNow();
 
         return redirect()->route('home')->with('flash_message', '有料プランを解約しました。');
     }
