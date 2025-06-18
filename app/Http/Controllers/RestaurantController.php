@@ -25,7 +25,8 @@ class RestaurantController extends Controller
         // 並び替え条件
         $sorts = [
             '掲載日が新しい順' => 'created_at desc',
-            '価格が安い順' => 'lowest_price asc'
+            '価格が安い順' => 'lowest_price asc',
+            '評価が高い順' =>'rating desc'
         ];
         $sort_query = [];
         $sorted = "created_at desc";
